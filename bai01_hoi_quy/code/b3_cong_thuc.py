@@ -36,3 +36,31 @@ print(f"MSE tren toan bo 60 can: {mse:.4f}")
 
 # Dự đoán cho một căn 80 m2
 print(f"Can 80 m2 duoc du doan: {w * 80 + b:.3f} ty dong")
+
+# ===== Vẽ đồ thị tương ứng Hình 5 trong tài liệu =====
+from pathlib import Path
+import matplotlib.pyplot as plt
+
+thu_muc_outputs = Path(__file__).resolve().parent.parent / "figures"
+thu_muc_outputs.mkdir(parents=True, exist_ok=True)
+
+x_ve = np.linspace(x.min(), x.max(), 200)
+y_ve = w * x_ve + b
+gia_80 = w * 80 + b
+
+plt.figure(figsize=(8, 5))
+plt.scatter(x, y, label="Dữ liệu")
+plt.plot(x_ve, y_ve, label=f"Đường khớp: y = {w:.4f}x + {b:.4f}")
+plt.scatter([80], [gia_80], marker="*", s=180,
+            label=f"Dự đoán căn 80 m²: {gia_80:.2f} tỷ", zorder=4)
+plt.xlabel("Diện tích (m²)")
+plt.ylabel("Giá (tỷ đồng)")
+plt.title("Đường hồi quy tìm được")
+plt.grid(alpha=0.3)
+plt.legend()
+plt.tight_layout()
+
+duong_dan_hinh = thu_muc_outputs / "b3_duong_hoi_quy_cong_thuc.png"
+plt.savefig(duong_dan_hinh, dpi=150)
+plt.close()
+print("Da luu hinh:", duong_dan_hinh)

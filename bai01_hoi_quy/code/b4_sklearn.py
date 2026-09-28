@@ -27,3 +27,32 @@ can_moi = pd.DataFrame({"dien_tich": [80.0, 100.0]})
 du_doan = mo_hinh.predict(can_moi)
 for dt, gia in zip(can_moi["dien_tich"], du_doan):
     print(f"Can {dt:.0f} m2 ‐> du doan {gia:.3f} ty dong")
+
+# ===== Vẽ đường hồi quy học bằng scikit-learn =====
+from pathlib import Path
+import matplotlib.pyplot as plt
+import numpy as np
+
+thu_muc_outputs = Path(__file__).resolve().parent.parent / "figures"
+thu_muc_outputs.mkdir(parents=True, exist_ok=True)
+
+x_ve = np.linspace(df["dien_tich"].min(), df["dien_tich"].max(), 200)
+X_ve = pd.DataFrame({"dien_tich": x_ve})
+y_ve = mo_hinh.predict(X_ve)
+
+plt.figure(figsize=(8, 5))
+plt.scatter(df["dien_tich"], y, label="Dữ liệu")
+plt.plot(x_ve, y_ve, label="Đường hồi quy scikit-learn")
+plt.scatter(can_moi["dien_tich"], du_doan, marker="*", s=150,
+            label="Các căn cần dự đoán", zorder=4)
+plt.xlabel("Diện tích (m²)")
+plt.ylabel("Giá (tỷ đồng)")
+plt.title("Hồi quy tuyến tính bằng scikit-learn")
+plt.grid(alpha=0.3)
+plt.legend()
+plt.tight_layout()
+
+duong_dan_hinh = thu_muc_outputs / "b4_sklearn_duong_hoi_quy.png"
+plt.savefig(duong_dan_hinh, dpi=150)
+plt.close()
+print("Da luu hinh:", duong_dan_hinh)
