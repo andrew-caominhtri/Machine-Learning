@@ -34,3 +34,32 @@ print("Du doan cho nam ban moi:")
 print(" So gio on Xac suat qua Nhan mo hinh dua ra")
 for gio, p, n in zip(can_moi["gio_on"], xac_suat, nhan):
     print(f" {gio:5.1f} {p:.4f} {n}")
+
+# ===== VẼ HÌNH 3: đường cong logistic khớp trên dữ liệu =====
+from pathlib import Path
+import numpy as np
+import matplotlib.pyplot as plt
+
+OUTPUT_DIR = Path(__file__).resolve().parent.parent / "figures"
+OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+
+x_ve = np.linspace(0, 30, 400)
+X_ve = pd.DataFrame({"gio_on": x_ve})
+p_ve = mo_hinh.predict_proba(X_ve)[:, 1]
+moc_05 = -b / w
+
+plt.figure(figsize=(9, 5))
+qua = y.to_numpy() == 1
+rot = y.to_numpy() == 0
+plt.scatter(df.loc[qua, "gio_on"], y[qua], s=22, label="Qua môn")
+plt.scatter(df.loc[rot, "gio_on"], y[rot], s=22, label="Rớt môn")
+plt.plot(x_ve, p_ve, linewidth=2.2, label="Xác suất qua môn do mô hình đoán")
+plt.axhline(0.5, linestyle=":", linewidth=1)
+plt.axvline(moc_05, linestyle="--", linewidth=1.5)
+plt.text(moc_05 + 0.4, 0.08, f"{moc_05:.1f} giờ", rotation=90, va="bottom")
+plt.xlim(0, 30); plt.ylim(-0.05, 1.05)
+plt.xlabel("Số giờ ôn tập"); plt.ylabel("Xác suất qua môn")
+plt.title("Đường cong logistic khớp trên 120 sinh viên")
+plt.grid(alpha=0.3); plt.legend(); plt.tight_layout()
+plt.savefig(OUTPUT_DIR / "c3_hinh3_duong_cong_logistic.png", dpi=150)
+plt.close()

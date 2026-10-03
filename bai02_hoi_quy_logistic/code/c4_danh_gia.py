@@ -43,3 +43,27 @@ n = len(y_test)
 print(f" Accuracy = ({tp} + {tn}) / {n} = {(tp + tn) / n:.4f}")
 print(f" Precision = {tp} / ({tp} + {fp}) = {tp / (tp + fp):.4f}")
 print(f" Recall = {tp} / ({tp} + {fn}) = {tp / (tp + fn):.4f}")
+
+# ===== VẼ HÌNH 4: ma trận nhầm lẫn =====
+from pathlib import Path
+import numpy as np
+import matplotlib.pyplot as plt
+
+OUTPUT_DIR = Path(__file__).resolve().parent.parent / "figures"
+OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+
+ma_tran = np.array([[tn, fp], [fn, tp]])
+fig, ax = plt.subplots(figsize=(6, 5))
+im = ax.imshow(ma_tran)
+ax.set_xticks([0, 1], labels=["Đoán rớt", "Đoán qua"])
+ax.set_yticks([0, 1], labels=["Thật: rớt", "Thật: qua"])
+nhan_o = [["TN", "FP"], ["FN", "TP"]]
+for i in range(2):
+    for j in range(2):
+        ax.text(j, i, f"{ma_tran[i, j]}\n{nhan_o[i][j]}",
+                ha="center", va="center", fontsize=14)
+ax.set_title("Ma trận nhầm lẫn trên tập kiểm tra")
+fig.colorbar(im, ax=ax, fraction=0.046, pad=0.04)
+plt.tight_layout()
+plt.savefig(OUTPUT_DIR / "c4_hinh4_ma_tran_nham_lan.png", dpi=150)
+plt.close()
