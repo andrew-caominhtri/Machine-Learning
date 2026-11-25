@@ -1,6 +1,6 @@
 # Thực hành Học máy ứng dụng
 
-Kho bài thực hành Python gồm chín chủ đề, từ hồi quy tuyến tính đến mạng nơ-ron nhiều lớp. Mỗi bài có tài liệu PDF hướng dẫn, mã nguồn và dữ liệu phù hợp với nội dung thực hành.
+Kho lưu trữ các bài thực hành môn Học máy ứng dụng, Trường Đại học Văn Lang. Nội dung gồm 9 lab, từ hồi quy và phân loại đến phân cụm và mạng nơ-ron. Mỗi bài có tài liệu PDF hướng dẫn, mã nguồn và dữ liệu phù hợp với nội dung thực hành.
 
 ## Danh sách bài thực hành
 
